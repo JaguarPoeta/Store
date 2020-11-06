@@ -15,12 +15,13 @@ namespace Store.Common.Entities
         [Display(Name = "Imagen")]
         public Guid ImageId { get; set; }
 
-        //TODO: Pending to put the correct paths
         [Display(Name = "Imagen")]
         public string ImageFullPath => ImageId == Guid.Empty
             ? Path.Combine(_hostingEnv.WebRootPath, "img", "noimages.png")
 
             : Path.Combine(_hostingEnv.WebRootPath, "img\\prod", String.Format("{{0}}", ImageId));
+
+        public ProductoEntity Producto { get; set; }
 
         public DateTimeOffset FechaC { get; set; }
         public DateTimeOffset FechaM { get; set; }

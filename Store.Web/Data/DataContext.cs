@@ -67,6 +67,7 @@ namespace Store.Web.Data
             modelBuilder.Entity<ProductoEntity>()
                 .HasIndex(t => t.Nombre)
                 .IsUnique();
+
         }
     }
 }

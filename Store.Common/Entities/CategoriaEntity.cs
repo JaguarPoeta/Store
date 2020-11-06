@@ -10,16 +10,16 @@ namespace Store.Common.Entities
     {
         private readonly IHostingEnvironment _hostingEnv;
 
+        [Display(Name = "Código")]
         public int Id { get; set; }
 
         [MaxLength(50)]
         [Required]
-        public string Name { get; set; }
+        public string Nombre { get; set; }
 
         [Display(Name = "Imagen")]
         public Guid ImageId { get; set; }
 
-        //TODO: Pending to put the correct paths
         [Display(Name = "Imagen")]
         public string ImageFullPath => ImageId == Guid.Empty
             ? Path.Combine(_hostingEnv.WebRootPath, "img", "noimages.png")

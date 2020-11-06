@@ -1,6 +1,7 @@
 ﻿using Store.Common.Interfaces;
 using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Store.Common.Entities
 {
@@ -14,8 +15,11 @@ namespace Store.Common.Entities
         [DisplayName("Costo Unitario")]
         public decimal CostoU => Cantidad == 0 ? 0 : Costo / Cantidad;
 
+        [DisplayName("Costo total")]
+        [Column(TypeName = "decimal(18,5)")]
         public decimal Costo { get; set; }
 
+        [Column(TypeName = "decimal(18,2)")]
         public decimal IVA { get; set; }
 
         public DateTimeOffset FechaC { get; set; }
