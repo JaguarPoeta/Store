@@ -68,6 +68,10 @@ namespace Store.Web.Data
                 .HasIndex(t => t.Nombre)
                 .IsUnique();
 
+            modelBuilder.Entity<CategoriaEntity>()
+                .HasIndex(t => t.Nombre)
+                .IsUnique();
+
         }
     }
 }

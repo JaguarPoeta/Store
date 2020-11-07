@@ -20,13 +20,12 @@ namespace Store.Common.Entities
         [Display(Name = "Imagen")]
         public Guid ImageId { get; set; }
 
-        [Display(Name = "Imagen")]
-        public string ImageFullPath => ImageId == Guid.Empty
-            ? Path.Combine(_hostingEnv.WebRootPath, "img", "noimages.png")
+        //[Display(Name = "Imagen")]
+        //public string ImageFullPath => ImageId == Guid.Empty
+        //    ? Path.Combine(_hostingEnv.WebRootPath, "img", "noimages.png")
 
-            : Path.Combine(_hostingEnv.WebRootPath, "img\\cat", String.Format("{{0}}", ImageId));
+        //    : Path.Combine(_hostingEnv.WebRootPath, "img\\cat", String.Format("{{0}}", ImageId));
 
-        public ProductoEntity Producto { get; set; }
 
         public DateTimeOffset FechaC { get; set; }
         public DateTimeOffset FechaM { get; set; }

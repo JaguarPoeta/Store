@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Store.Common.Entities;
 using Store.Web.Data;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -49,10 +50,32 @@ namespace Store.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(categoriaEntity);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    _context.Add(categoriaEntity);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (DbUpdateException dbUpdateException)
+                {
+                    if (dbUpdateException.InnerException.Message.Contains("duplicate"))
+                    {
+                        if (dbUpdateException.InnerException.Message.Contains("Nombre"))
+                        {
+                            ModelState.AddModelError(string.Empty, "Ya existe la categoría con este nombre.");
+                        }
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
+                    }
+                }
+                catch (Exception exception)
+                {
+                    ModelState.AddModelError(string.Empty, exception.Message);
+                }
             }
+
             return View(categoriaEntity);
         }
 
@@ -87,16 +110,23 @@ namespace Store.Web.Controllers
                     _context.Update(categoriaEntity);
                     await _context.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateException dbUpdateException)
                 {
-                    if (!CategoriaEntityExists(categoriaEntity.Id))
+                    if (dbUpdateException.InnerException.Message.Contains("duplicate"))
                     {
-                        return NotFound();
+                        if (dbUpdateException.InnerException.Message.Contains("Nombre"))
+                        {
+                            ModelState.AddModelError(string.Empty, "Ya existe la categoría con este nombre.");
+                        }
                     }
                     else
                     {
-                        throw;
+                        ModelState.AddModelError(string.Empty, dbUpdateException.InnerException.Message);
                     }
+                }
+                catch (Exception exception)
+                {
+                    ModelState.AddModelError(string.Empty, exception.Message);
                 }
                 return RedirectToAction(nameof(Index));
             }

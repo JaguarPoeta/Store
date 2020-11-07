@@ -30,6 +30,11 @@ namespace Store.Common.Entities
         [DisplayName("Costo Unitario")]
         public decimal CostoU => Unidades == 0 ? 0 : Costo / Unidades;
 
+        public CategoriaEntity Categoria { get; set; }
+
+        [DisplayName("Activo")]
+        public bool IsActive { get; set; }
+
         public DateTimeOffset FechaC { get; set; }
         public DateTimeOffset FechaM { get; set; }
         public Guid UserC { get; set; }

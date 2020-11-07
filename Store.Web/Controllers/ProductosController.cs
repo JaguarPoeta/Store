@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Store.Common.Entities;
 using Store.Common.Extension;
 using Store.Web.Data;
+using Store.Web.Helpers;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,15 +12,21 @@ namespace Store.Web.Controllers
     public class ProductosController : Controller
     {
         private readonly DataContext _context;
+        private readonly ICombosHelper _combosHelper;
+        private readonly IConverterHelper _converterHelper;
 
-        public ProductosController(DataContext context)
+        public ProductosController(DataContext context, ICombosHelper combosHelper, IConverterHelper converterHelper)
         {
             _context = context;
+            _combosHelper = combosHelper;
+            _converterHelper = converterHelper;
         }
 
         public async Task<IActionResult> Index()
         {
-            return View(await _context.ProductoEntities.ToListAsync());
+            return View(await _context.ProductoEntities
+                .Include(p=> p.Categoria)
+                .ToListAsync());
         }
 
         public async Task<IActionResult> Details(string id)
@@ -41,7 +48,14 @@ namespace Store.Web.Controllers
 
         public IActionResult Create()
         {
-            return View();
+            ProductViewModel model = new ProductViewModel
+            {
+                Categories = _combosHelper.GetComboCategories(),
+                IsActive = true
+            };
+
+            return View(model);
+
         }
 
         [HttpPost]

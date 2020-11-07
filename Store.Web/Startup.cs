@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Store.Web.Data;
+using Store.Web.Helpers;
 
 namespace Store.Web
 {
@@ -31,6 +32,8 @@ namespace Store.Web
                 cfg.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
             services.AddTransient<SeedDb>();
+            services.AddScoped<IConverterHelper, ConverterHelper>();
+            services.AddScoped<ICombosHelper, CombosHelper>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
