@@ -65,7 +65,7 @@ namespace Store.Web.Data
                 .IsUnique();
 
             modelBuilder.Entity<ProductoEntity>()
-                .HasIndex(t => t.Nombre)
+                .HasIndex(t => t.Id)
                 .IsUnique();
 
             modelBuilder.Entity<CategoriaEntity>()

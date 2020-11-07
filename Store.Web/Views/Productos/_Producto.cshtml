@@ -1,0 +1,29 @@
+﻿@model Store.Web.Models.ProductoViewModel
+
+
+
+<div class="form-group">
+    <label asp-for="Nombre" class="control-label"></label>
+    <input asp-for="Nombre" class="form-control" />
+    <span asp-validation-for="Nombre" class="text-danger"></span>
+</div>
+
+<div class="form-group">
+    <label asp-for="CategoriaId" class="control-label"></label>
+    <select asp-for="CategoriaId" asp-items="Model.Categorias" class="form-control"></select>
+    <span asp-validation-for="CategoriaId" class="text-danger"></span>
+</div>
+
+<div class="form-group">
+    <label asp-for="Precio" class="control-label"></label>
+    <input asp-for="Precio" class="form-control" />
+    <span asp-validation-for="Precio" class="text-danger"></span>
+</div>
+
+<div class="form-group">
+    <div class="checkbox">
+        <label>
+            <input asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+        </label>
+    </div>
+</div>

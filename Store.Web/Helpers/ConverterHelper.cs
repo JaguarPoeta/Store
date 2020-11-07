@@ -22,7 +22,7 @@ namespace Store.Web.Helpers
             {
                 Categoria = await _context.CategoriaEntities.FindAsync(model.CategoriaId),
                 Nombre = model.Nombre,
-                Id = isNew ? "" : model.Id,
+                Id = model.Id,
                 IsActive = model.IsActive,
                 Precio = model.Precio,
             };
