@@ -1,15 +1,18 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Store.Common.Entities;
 using Store.Common.Interfaces;
+using Store.Web.Data.Entities;
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Store.Web.Entities;
 
 namespace Store.Web.Data
 {
-    public class DataContext : DbContext
+    public class DataContext : IdentityDbContext<UserEntity>
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
@@ -71,7 +74,6 @@ namespace Store.Web.Data
             modelBuilder.Entity<CategoriaEntity>()
                 .HasIndex(t => t.Nombre)
                 .IsUnique();
-
         }
     }
 }

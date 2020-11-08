@@ -8,7 +8,6 @@ namespace Store.Common.Entities
     public class CotizacionDetalleEntity : IAudit
     {
         public int Id { get; set; }
-        public CotizacionEntity Cotizacion { get; set; }
         public int Cantidad { get; set; }
         public ProductoEntity Producto { get; set; }
 

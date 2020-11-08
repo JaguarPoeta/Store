@@ -10,4 +10,12 @@ namespace Store.Common.Enums
         Aprobado,
         Rechazado
     }
+
+    public enum TipoUsuario
+    {
+        Admin,
+        Usuario,
+        Proveedor
+    }
+
 }

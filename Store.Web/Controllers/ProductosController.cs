@@ -39,7 +39,7 @@ namespace Store.Web.Controllers
             }
 
             var productoEntity = await _context.ProductoEntities
-                .Include(p=> p.Categoria)
+                .Include(p => p.Categoria)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (productoEntity == null)
             {
@@ -57,7 +57,7 @@ namespace Store.Web.Controllers
                 IsActive = true,
                 Unidades = 0,
                 Costo = 0,
-                Precio=0
+                Precio = 0
             };
 
             return View(model);
@@ -116,8 +116,6 @@ namespace Store.Web.Controllers
             return View(model);
         }
 
-
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(ProductoViewModel model)
@@ -127,11 +125,10 @@ namespace Store.Web.Controllers
                 try
                 {
                     ProductoEntity producto = await _converterHelper.ToProductoAsync(model, false);
-                                 
+
                     _context.Update(producto);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
-
                 }
                 catch (DbUpdateException dbUpdateException)
                 {
@@ -150,7 +147,7 @@ namespace Store.Web.Controllers
                 }
             }
 
-            model.Categorias  = _combosHelper.GetComboCategorias();
+            model.Categorias = _combosHelper.GetComboCategorias();
             return View(model);
         }
 
