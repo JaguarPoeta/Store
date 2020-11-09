@@ -26,6 +26,12 @@ namespace Store.Web.Data
                                  "+503 6048 4100",
                                  "Santa Ana",
                                  TipoUsuario.Admin);
+            await CheckUserAsync("Juan",
+                                 "Perez",
+                                 "juanperez@hotmail.com",
+                                 "+503 6048 4100",
+                                 "Santa Ana",
+                                 TipoUsuario.Proveedor);
         }
 
         private async Task CheckRolesAsync()

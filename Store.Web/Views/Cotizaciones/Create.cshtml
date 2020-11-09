@@ -1,0 +1,135 @@
+﻿@model Store.Web.Models.CotizacionViewModel
+
+@{
+    ViewData["Title"] = "Crear cotizacion";
+}
+@using System.Collections.ObjectModel;
+@using System.Collections.Generic;
+
+<h1>Crear</h1>
+
+<h4>Cotización</h4>
+<hr />
+
+<p>
+    <input type="submit" value="Guardar" class="btn btn-primary" />
+    <a asp-action="Index" class="btn btn-success">Regresar al listado</a>
+</p>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <ul id="Cotizacion-detalle" class="list-group">
+                @if (Model.Detalle.Count > 0)
+                {
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-xs-1"></div>
+                            <div class="col-xs-5">
+                                <b>Producto</b>
+                            </div>
+                            <div class="col-xs-2 text-center">
+                                <b>Cantidad</b>
+                            </div>
+                            <div class="col-xs-2 text-right">
+                                <b>Precio Unitario</b>
+                            </div>
+                            <div class="col-xs-2 text-right">
+                                <b>Monto</b>
+                            </div>
+                        </div>
+                    </li>
+                }
+
+                @foreach (var d in Model.Detalle)
+                {
+                    var i = Model.Detalle.IndexOf(d);
+                    <li class="list-group-item">
+                        <!-- Modelo -->
+                        @Html.Hidden("ComprobanteDetalle[" + i + "].ProductoId", d.Producto.Id)
+                        @Html.Hidden("ComprobanteDetalle[" + i + "].ProductoNombre", d.Producto.Nombre)
+                        @Html.Hidden("ComprobanteDetalle[" + i + "].PrecioUnitario", d.Producto.Precio)
+                        @Html.Hidden("ComprobanteDetalle[" + i + "].Cantidad", d.Cantidad)
+
+                        <div class="row">
+                            <div class="col-xs-1 text-right">
+                                <button class="btn btn-danger btn-xs btn-block btn-retirar" type="submit" value="retirar_producto" name="action">
+                                    <i class="glyphicon glyphicon-remove"></i>
+                                </button>
+                            </div>
+                            <div class="col-xs-5">
+                                @d.Producto.Nombre
+                            </div>
+                            <div class="col-xs-2 text-center">
+                                @d.Cantidad
+                            </div>
+                            <div class="col-xs-2 text-right">
+                                @string.Format("{0:c}", d.Producto.Precio)
+                            </div>
+                            <div class="col-xs-2 text-right">
+                                @string.Format("{0:c}", d.Costo)
+                            </div>
+                        </div>
+                    </li>
+                }
+                @if (Model.Detalle.Count > 0)
+                {
+                    <li class="list-group-item text-right" style="font-size:18px;">
+                        @string.Format("{0:c}", Model.Costo))
+                    </li>
+                }
+
+            </ul>
+
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            LimpiarAgregarProducto();
+            $(".btn-retirar").click(function () {
+                if (confirm('¿Está seguro de retirar el item seleccionado?')) {
+                    $(this).closest('.list-group-item').find('.retirar').val("True");
+                    return true;
+                }
+                return false;
+            })
+            /* Autocomplete de producto, jquery UI */
+            $("#Producto").autocomplete({
+                dataType: 'JSON',
+                source: function (request, response) {
+                    jQuery.ajax({
+                        url: '/Home/BuscarProducto',
+                        type: "post",
+                        dataType: "json",
+                        data: {
+                            nombre: request.term
+                        },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return {
+                                    id: item.id,
+                                    value: item.Nombre,
+                                    precio: item.Precio
+                                }
+                            }))
+                        }
+                    })
+                },
+                select: function (e, ui) {
+                    $("#CabeceraProductoId").val(ui.item.id);
+                    $("#CabeceraProductoPrecio").val(ui.item.precio);
+                    $("#CabeceraProductoCantidad").focus();
+                }
+            })
+        })
+        function LimpiarAgregarProducto() {
+            $("#CabeceraProductoId").val("");
+            $("#Producto").val("");
+            $("#CabeceraProductoPrecio").val("");
+            $("#CabeceraProductoCantidad").val(1);
+        }
+    </script>
+}

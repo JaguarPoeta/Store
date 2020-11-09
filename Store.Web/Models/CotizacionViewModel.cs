@@ -1,6 +1,5 @@
 ﻿using Store.Common.Entities;
 using Store.Common.Enums;
-using Store.Common.Interfaces;
 using Store.Web.Data.Entities;
 using System;
 using System.Collections.Generic;
@@ -8,13 +7,20 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
-namespace Store.Web.Data.Entities
+namespace Store.Web.Models
 {
-    public class CotizacionEntity : IAudit
+    public class CotizacionViewModel
     {
+        public CotizacionViewModel()
+        {
+            Detalle = new List<CotizacionDetalleEntity>();
+        }
+
+        #region cabecera
+
         public int Id { get; set; }
 
-        [DisplayName("Fecha de cotización")]
+        [DisplayName("Fecha")]
         public DateTime FechaCotizacion { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd hh:mm}")]
@@ -22,15 +28,23 @@ namespace Store.Web.Data.Entities
         public DateTime DateLocal => FechaCotizacion.ToLocalTime();
 
         public UserEntity User { get; set; }
-        public DateTime FechaCompra { get; set; }
+        public Guid UserId { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd hh:mm}")]
-        [DisplayName("Fecha de compra")]
-        public DateTime DateCompraLocal => FechaCompra.ToLocalTime();
+        [Display(Name = "Nombre del proveedor")]
+        [MaxLength(100)]
+        public string NombreProveedor { get; set; }
 
         public Estados Estados { get; set; }
 
-        public ICollection<CotizacionDetalleEntity> Detalle { get; set; }
+        #endregion cabecera
+
+        #region detalle
+
+        public List<CotizacionDetalleEntity> Detalle { get; set; }
+
+        #endregion detalle
+
+        #region pie
 
         [DisplayName("Costo total")]
         public decimal Costo => Detalle == null ? 0 : Detalle.Sum(p => p.Costo);
@@ -38,9 +52,7 @@ namespace Store.Web.Data.Entities
         public decimal IVA => Detalle == null ? 0 : Detalle.Sum(p => p.IVA);
 
         public decimal Total => Costo + IVA;
-        public DateTimeOffset FechaC { get; set; }
-        public DateTimeOffset FechaM { get; set; }
-        public Guid UserC { get; set; }
-        public Guid UserM { get; set; }
+
+        #endregion pie
     }
 }
