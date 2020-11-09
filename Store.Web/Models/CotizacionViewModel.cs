@@ -36,6 +36,11 @@ namespace Store.Web.Models
 
         public Estados Estados { get; set; }
 
+        public string CabeceraProductoId { get; set; }
+        public string CabeceraProductoNombre { get; set; }
+        public int CabeceraProductoCantidad { get; set; }
+        public decimal CabeceraProductoPrecio { get; set; }
+
         #endregion cabecera
 
         #region detalle
